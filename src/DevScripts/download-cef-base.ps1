@@ -117,7 +117,7 @@ Write-Output "Downloaded CEF build to '$($CefBinTarBz2FileLocation)'."
 Write-Output "Exracting CEF build..."
 
 #Get 7Zip
-$7zipApp = "../DevTools/7zip/win-x64/7za.exe"
+$7zipApp = "../DevTools/7zip/win-x64/7zr.exe"
 
 $7zipApp = (Resolve-Path -Path $7zipApp).Path
 
