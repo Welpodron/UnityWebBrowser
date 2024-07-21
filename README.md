@@ -7,9 +7,9 @@
 4. Install an engine:
     - E.G.: UnityWebBrowser CEF Engine with Windows natives
 
-[setup article](https://projects.voltstro.dev/UnityWebBrowser/articles/user/setup/).
-[developer guide article](https://projects.voltstro.dev/UnityWebBrowser/articles/dev/dev-guide/)
-[UWB's project site](https://projects.voltstro.dev/UnityWebBrowser/articles/)
+- [setup article](https://projects.voltstro.dev/UnityWebBrowser/articles/user/setup/).
+- [developer guide article](https://projects.voltstro.dev/UnityWebBrowser/articles/dev/dev-guide/)
+- [UWB's project site](https://projects.voltstro.dev/UnityWebBrowser/articles/)
 
 ## Additional resources
 
