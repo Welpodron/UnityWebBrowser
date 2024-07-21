@@ -117,19 +117,7 @@ Write-Output "Downloaded CEF build to '$($CefBinTarBz2FileLocation)'."
 Write-Output "Exracting CEF build..."
 
 #Get 7Zip
-$7zipApp = ""
-if($IsLinux)
-{
-    $7zipApp = "../DevTools/7zip/linux-x64/7zz"
-}
-elseif($ISMacOs)
-{
-    $7zipApp = "../DevTools/7zip/macos-x64-intel/7zz"
-}
-else
-{
-    $7zipApp = "../DevTools/7zip/win-x64/7za.exe"
-}
+$7zipApp = "../DevTools/7zip/win-x64/7za.exe"
 
 $7zipApp = (Resolve-Path -Path $7zipApp).Path
 
@@ -155,9 +143,6 @@ if($IncludeResources)
     $CefExtractedResourcesLocation = "$($CefExtractedLocation)Resources/"
     Copy-Item -Path "$($CefExtractedResourcesLocation)/*" -Destination $CefLibsLocation -Force -PassThru -Recurse
 }
-
-Copy-Item -Path "$($CefExtractedLocation)/README.txt" -Destination $CefLibsLocation -Force -PassThru
-Copy-Item -Path "$($CefExtractedLocation)/LICENSE.txt" -Destination $CefLibsLocation -Force -PassThru
 
 #Cleanup
 if($Cleanup)
