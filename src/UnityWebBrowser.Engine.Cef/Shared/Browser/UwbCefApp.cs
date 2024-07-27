@@ -38,10 +38,6 @@ public class UwbCefApp : CefApp
 
         if (remoteDebugging && !commandLine.HasSwitch("--remote-allow-origins"))
             commandLine.AppendSwitch("--remote-allow-origins", string.Join(',', remoteDebuggingOrigins));
-
-#if LINUX || MACOS
-        if (!commandLine.HasSwitch("--no-zygote")) commandLine.AppendSwitch("--no-zygote");
-#endif
     }
 
     protected override CefBrowserProcessHandler GetBrowserProcessHandler()

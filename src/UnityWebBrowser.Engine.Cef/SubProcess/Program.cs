@@ -23,12 +23,6 @@ public static class Program
         {
 // ReSharper disable once RedundantAssignment
             string[] argv = args;
-#if LINUX || MACOS
-        //On Linux we need to do this, otherwise it will just crash, no idea why tho
-        argv = new string[args.Length + 1];
-        Array.Copy(args, 0, argv, 1, args.Length);
-        argv[0] = "-";
-#endif
 
             //Set up CEF args and the CEF app
             CefMainArgs cefMainArgs = new CefMainArgs(argv);

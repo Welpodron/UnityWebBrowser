@@ -64,12 +64,6 @@ internal class CefEngineControlsManager : IEngineControls, IDisposable
 
         // ReSharper disable once RedundantAssignment
         string[] argv = args;
-#if LINUX || MACOS
-        //On Linux we need to do this, otherwise it will just crash, no idea why tho
-        argv = new string[args.Length + 1];
-        Array.Copy(args, 0, argv, 1, args.Length);
-        argv[0] = "-";
-#endif
 
         //Set up CEF args and the CEF app
         cefMainArgs = new CefMainArgs(argv);
@@ -99,11 +93,7 @@ internal class CefEngineControlsManager : IEngineControls, IDisposable
         };
 
         //Setup the CEF settings
-#if WINDOWS
         const string subprocessName = "UnityWebBrowser.Engine.Cef.SubProcess.exe";
-#else
-        const string subprocessName = "UnityWebBrowser.Engine.Cef.SubProcess";
-#endif
         
         
         CefSettings cefSettings = new()

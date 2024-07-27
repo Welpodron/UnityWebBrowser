@@ -33,12 +33,8 @@ namespace VoltstroStudios.UnityWebBrowser.Editor
         {
             switch (buildTarget)
             {
-                case BuildTarget.StandaloneLinux64:
-                    return Platform.Linux64;
                 case BuildTarget.StandaloneWindows64:
                     return Platform.Windows64;
-                case BuildTarget.StandaloneOSX:
-                    return Platform.MacOS;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

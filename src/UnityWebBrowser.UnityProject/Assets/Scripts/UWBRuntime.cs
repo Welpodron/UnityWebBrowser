@@ -69,11 +69,6 @@ namespace VoltstroStudios.UnityWebBrowser.Prj
                 {
                     platform = Platform.Windows64,
                     engineFileLocation = "Packages/dev.voltstro.unitywebbrowser.engine.cef.win.x64/Engine~/"
-                },
-                new Engine.EnginePlatformFiles
-                {
-                    platform = Platform.Linux64,
-                    engineFileLocation = "Packages/dev.voltstro.unitywebbrowser.engine.cef.linux.x64/Engine~/"
                 }
             };
 #endif

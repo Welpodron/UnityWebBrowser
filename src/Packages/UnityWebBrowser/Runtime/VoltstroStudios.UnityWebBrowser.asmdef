@@ -3,22 +3,16 @@
     "rootNamespace": "VoltstroStudios.UnityWebBrowser",
     "references": [
         "VoltstroStudios.NativeArraySpanExtensions",
-        "VoltstroStudios.UnityWebBrowser.UnixSupport",
         "Unity.TextMeshPro",
         "Unity.InputSystem",
         "UniTask"
     ],
     "includePlatforms": [
-        "Android",
         "Editor",
-        "EmbeddedLinux",
         "GameCoreScarlett",
         "GameCoreXboxOne",
-        "iOS",
-        "LinuxStandalone64",
         "CloudRendering",
         "Lumin",
-        "macOSStandalone",
         "PS4",
         "PS5",
         "Stadia",
@@ -52,11 +46,6 @@
             "expression": "2.0",
             "define": "TMP_ENABLED"
         },
-        {
-            "name": "dev.voltstro.unitywebbrowser.unix-support",
-            "expression": "1",
-            "define": "UNIX_SUPPORT"
-        }
     ],
     "noEngineReferences": false
 }

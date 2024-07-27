@@ -15,10 +15,6 @@ using VoltstroStudios.UnityWebBrowser.Engine.Shared.Communications;
 using VoltstroStudios.UnityWebBrowser.Engine.Shared.Popups;
 using VoltstroStudios.UnityWebBrowser.Engine.Shared.ReadWriters;
 
-#if LINUX
-using VoltstroStudios.UnityWebBrowser.Engine.Shared.Native.Linux;
-#endif
-
 namespace VoltstroStudios.UnityWebBrowser.Engine.Shared.Core;
 
 /// <summary>
@@ -65,13 +61,6 @@ internal abstract class EngineEntryPoint : IDisposable
     /// <returns></returns>
     public int Main(string[] args)
     {
-        #if LINUX
-        //On Linux, tell this child process to kill it self when it's parent process dies
-        //Option: 1 -> PR_SET_PDEATHSIG (include/uapi/linux/prctl.h)
-        //Arg2: 9 -> SIGKILL (arch/x86/include/uapi/asm/signal.h)
-        SysPrctl.prctl(1, 9);
-        #endif
-
         LaunchArgumentsParser launchArgumentsParser = new();
         return launchArgumentsParser.Run(args, parsedArgs =>
         {

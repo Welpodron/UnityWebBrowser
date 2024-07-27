@@ -14,14 +14,4 @@ public enum Platform
     ///     Windows 64-bit
     /// </summary>
     Windows64,
-
-    /// <summary>
-    ///     Linux 64-bit
-    /// </summary>
-    Linux64,
-    
-    /// <summary>
-    ///     MacOS 64-bit (Intel)
-    /// </summary>
-    MacOS
 }

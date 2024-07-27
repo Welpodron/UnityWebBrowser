@@ -27,11 +27,7 @@ namespace VoltstroStudios.UnityWebBrowser.Core.Engines
         /// <param name="logger"></param>
         public EngineProcess(Engine engine, IWebBrowserLogger logger)
         {
-#if UNITY_STANDALONE_WIN
             processHandle = new WindowProcess();
-#elif UNITY_STANDALONE_LINUX
-            processHandle = new LinuxProcess(logger);
-#endif
             
             this.engine = engine;
             this.logger = logger;

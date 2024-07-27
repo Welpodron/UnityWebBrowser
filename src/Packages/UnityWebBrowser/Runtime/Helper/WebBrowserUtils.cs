@@ -3,18 +3,6 @@
 // 
 // This project is under the MIT license. See the LICENSE.md file for more details.
 
-//Defines
-#if UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX && !UWB_DOCS
-
-//We need the Unix support package installed on UNIX systems
-#if !UNIX_SUPPORT
-#error Need UNIX support package!
-#else
-#define UWB_NEED_UNIX
-#endif
-
-#endif
-
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -27,9 +15,6 @@ using UnityEngine.Scripting;
 using UnityEngine.UI;
 using VoltstroStudios.UnityWebBrowser.Core.Engines;
 using VoltstroStudios.UnityWebBrowser.Logging;
-#if UWB_NEED_UNIX
-using VoltstroStudios.UnityWebBrowser.UnixSupport;
-#endif
 #if UNITY_EDITOR
 using VoltstroStudios.UnityWebBrowser.Editor.EngineManagement;
 #endif
@@ -46,9 +31,6 @@ namespace VoltstroStudios.UnityWebBrowser.Helper
         {
             RuntimePlatform.WindowsPlayer,
             RuntimePlatform.WindowsEditor,
-            RuntimePlatform.LinuxPlayer,
-            RuntimePlatform.LinuxEditor,
-            RuntimePlatform.OSXEditor
         };
         
         /// <summary>
@@ -59,8 +41,6 @@ namespace VoltstroStudios.UnityWebBrowser.Helper
         {
 #if UNITY_EDITOR
             return Path.GetFullPath($"{Directory.GetParent(Application.dataPath).FullName}/Library");
-#elif UNITY_STANDALONE_OSX
-            return Application.persistentDataPath;
 #else
 			return Application.dataPath;
 #endif
@@ -77,8 +57,6 @@ namespace VoltstroStudios.UnityWebBrowser.Helper
             return EngineManager.GetEngineDirectory(engine);
 
             //Player builds (Standalone)
-#elif UNITY_STANDALONE_OSX
-            return Path.GetFullPath($"{Application.dataPath}/Resources/Data/UWB/");
 #elif UNITY_STANDALONE
 		    return Path.GetFullPath($"{Application.dataPath}/UWB/");
 #else       //Unsupported platform, UWB shouldn't run anyway
@@ -185,12 +163,6 @@ namespace VoltstroStudios.UnityWebBrowser.Helper
 
             logger.Debug($"Process Path: '{engineFullProcessPath}'\nWorking: '{engineDirectory}'");
             logger.Debug($"Arguments: '{arguments}'");
-
-#if UWB_NEED_UNIX
-            if (PermissionsManager.CheckAndSetIfNeededFileExecutablePermission(engineFullProcessPath))
-                logger.Warn(
-                    "UWB engine process did not have +rwx permissions! Engine process permission's were updated for the user.");
-#endif
 
             Process process = new()
             {
