@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
     <Import Project="../../Imports/NativeDefines.props"/>
     <Import Project="../../Imports/Properties.props"/>
 
@@ -49,18 +48,6 @@
             <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
         </ContentWithTargetPath>
 
-        <ContentWithTargetPath Include="..\..\ThirdParty\Libs\cef\windows64\LICENSE.txt" Link="Libs/%(Filename)%(Extension)">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <TargetPath>LICENSE.CEF.txt</TargetPath>
-            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        </ContentWithTargetPath>
-
-        <ContentWithTargetPath Include="..\..\ThirdParty\Libs\cef\windows64\README.txt" Link="Libs/%(Filename)%(Extension)">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <TargetPath>README.CEF.txt</TargetPath>
-            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        </ContentWithTargetPath>
-
         <ContentWithTargetPath Include="..\..\ThirdParty\Libs\cef\windows64\locales\*.pak" Link="Libs/locales/%(Filename)%(Extension)">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <TargetPath>locales/%(Filename)%(Extension)</TargetPath>
@@ -69,5 +56,4 @@
     </ItemGroup>
 
     <Import Project="../../Imports/NatvieDefines.targets"/>
-
 </Project>

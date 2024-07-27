@@ -21,10 +21,6 @@ public class UwbCefRenderProcessHandler : CefRenderProcessHandler
         //Root UWB V8 Object
         CefV8Value uwbObject = CefV8Value.CreateObject();
 
-        //Version info
-        CefV8Value versionValue = CefV8Value.CreateString(ThisAssembly.AssemblyFileVersion);
-        uwbObject.SetValue("EngineVersion", versionValue);
-
         CefV8Value engineName = CefV8Value.CreateString("CEF (Chromium Embedded Framework)");
         uwbObject.SetValue("EngineName", engineName);
 

@@ -1,1 +1,0 @@
-& "$PSScriptRoot/download-cef-windows.ps1"

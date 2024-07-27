@@ -1,18 +1,8 @@
-#This script downloads the CEF binaries, since we can't include them in the repo (They are bigger then your mum surprisingly)
-#CefGlue wants the EXACT correct CEF version, so we look at what CEF version CefGlue is targeting and download the right tar.bz2 
-#file off from the CEF build server
-
-param
-(
-    [Parameter(Mandatory=$true)]
-    [string] $OperatingSystem,
-
-    [Parameter(Mandatory=$false)]
-    [bool] $Cleanup = $true,
-
-    [Parameter(Mandatory=$false)]
-    [bool] $IncludeResources = $true
-)
+# Version Check
+if ($PSVersionTable.PSVersion.Major -lt 5)
+{
+    throw "You need to use the NEW PowerShell version! You can get it here: https://github.com/powershell/powershell#get-powershell"
+}
 
 function Reset 
 {
@@ -34,20 +24,12 @@ function CheckProcess
     }
 }
 
-# Version Check
-if ($PSVersionTable.PSVersion.Major -lt 7)
-{
-    throw "You need to use the NEW PowerShell version! You can get it here: https://github.com/powershell/powershell#get-powershell"
-}
-
+$OperatingSystem = "windows64"
 #Set location
 Push-Location $PSScriptRoot
 
-#Find what version CefGlue wants
 $CefGlueVersionFile = "../ThirdParty/CefGlue/CefGlue/Interop/version.g.cs"
 
-#Check if the version.g.cs file exists, if it doesn't then there is a good chance the user didn't clone the repo recursively, 
-#and didn't init the submodules.
 if(-not (Test-Path -Path $CefGlueVersionFile))
 {
     Write-Warning "The CefGlue version file doesn't exist! Initalizing the submodules for you..."
@@ -106,7 +88,7 @@ $progressPreference = 'silentlyContinue'
 Invoke-WebRequest -Uri "https://cef-builds.spotifycdn.com/$($CefBinTarBz2FileName)" -OutFile $CefBinTarBz2FileLocation
 $progressPreference = 'Continue'
 
-#Check to make sure the file downloaded
+# #Check to make sure the file downloaded
 if(-not (Test-Path -Path $CefBinTarBz2FileLocation))
 {
     Reset
@@ -116,41 +98,30 @@ if(-not (Test-Path -Path $CefBinTarBz2FileLocation))
 Write-Output "Downloaded CEF build to '$($CefBinTarBz2FileLocation)'."
 Write-Output "Exracting CEF build..."
 
-#Get 7Zip
-$7zipApp = "../DevTools/7zip/win-x64/7zr.exe"
-
-$7zipApp = (Resolve-Path -Path $7zipApp).Path
-
 #Extract our files
-$p = Start-Process $7zipApp -ArgumentList "x $($CefBinTarBz2FileLocation) -o$($TempDirectory) *.tar -r -y" -Wait -NoNewWindow -PassThru
-CheckProcess "Extracting failed!" $p
+$tarApp = "tar.exe"
 
-$p = Start-Process $7zipApp -ArgumentList "x $($CefBinTarFileLocation) -o$($TempDirectory) $($CefBinName)/ -r -y" -Wait -NoNewWindow -PassThru
+$p = Start-Process $tarApp -ArgumentList "-xvzf $($CefBinTarBz2FileLocation) -C $($TempDirectory) *.pak *.dat *.bin *.dll *.lib *.json" -Wait -NoNewWindow -PassThru
 CheckProcess "Extracting failed!" $p
 
 #Setup some variables to using the copying phase
 $CefExtractedLocation = (Resolve-Path -Path "$($TempDirectory)/$($CefBinName)/").Path
 $CefExtractedReleaseLocation = "$($CefExtractedLocation)Release/"
+$CefExtractedResourcesLocation = "$($CefExtractedLocation)Resources/"
 
 $CefLibsLocation = (Resolve-Path -Path ../ThirdParty/Libs/cef/$($OperatingSystem)).Path
 
-#Copy files
+# #Copy files
 Write-Output "Copying files..."
+
 Copy-Item -Path "$($CefExtractedReleaseLocation)/*" -Destination $CefLibsLocation -Force -PassThru -Recurse
+Copy-Item -Path "$($CefExtractedResourcesLocation)/*" -Destination $CefLibsLocation -Force -PassThru -Recurse
 
-if($IncludeResources)
-{
-    $CefExtractedResourcesLocation = "$($CefExtractedLocation)Resources/"
-    Copy-Item -Path "$($CefExtractedResourcesLocation)/*" -Destination $CefLibsLocation -Force -PassThru -Recurse
-}
-
-#Cleanup
-if($Cleanup)
-{
-    Write-Output "Cleaning up..."
-    Remove-Item -Path $CefBinTarFileLocation -Force
-    Remove-Item -Path $CefBinTarBz2FileLocation -Force
-    Remove-Item -Path $CefExtractedLocation -Force -Recurse
-}
+# Cleanup
+Write-Output "Cleaning up..."
+Remove-Item -Path $CefBinTarBz2FileLocation -Force
+Remove-Item -Path $CefExtractedLocation -Force -Recurse
 
 Reset
+
+Write-Output "Done!"
