@@ -19,6 +19,7 @@ foreach($Content in $CefGlueVersionfileContent)
     }
 }
 
+$CorePackageName = "dev.voltstro.unitywebbrowser.engine.cef"
 $CorePackagePath = "../Packages/UnityWebBrowser/package.json"
 $CorePackageJson = Get-Content $CorePackagePath | ConvertFrom-Json 
 $CorePackageVersion = $CorePackageJson.version
@@ -29,9 +30,37 @@ $EngineCefJsonPath = "../Packages/UnityWebBrowser.Engine.Cef/package.json"
 $EngineCefJson = Get-Content $EngineCefJsonPath | ConvertFrom-Json
 
 if (!$EngineCefJson) {
-    $EngineCefJson = @{"version" = $CefPackagesVersion}
+    $EngineCefJson = @{
+        "name" = $CorePackageName
+        "version" = $CefPackagesVersion
+    }
 } else {
+    $EngineCefJson | Add-Member -Force -MemberType NoteProperty -Name "name" -Value $CorePackageName
     $EngineCefJson | Add-Member -Force -MemberType NoteProperty -Name "version" -Value $CefPackagesVersion
 }
 
-$EngineCefJson | ConvertTo-Json | Out-File -FilePath $EngineCefJsonPath
+$EngineCefJson | ConvertTo-Json | Out-File -NoNewline -FilePath $EngineCefJsonPath -Encoding UTF8
+
+$EngineCefWinJsonPackageName = "dev.voltstro.unitywebbrowser.engine.cef.win.x64"
+$EngineCefWinJsonPath = "../Packages/UnityWebBrowser.Engine.Cef.Win-x64/package.json"
+
+if(-not (Test-Path -Path $EngineCefWinJsonPath)) {
+    $EngineCefWinJson = @{
+        "name" = $EngineCefWinJsonPackageName
+        "version" = $CefPackagesVersion
+    }
+} else {
+    $EngineCefWinJson = Get-Content $EngineCefWinJsonPath | ConvertFrom-Json
+}   
+
+if (!$EngineCefWinJson) {
+    $EngineCefWinJson = @{
+        "name" = $EngineCefWinJsonPackageName
+        "version" = $CefPackagesVersion
+    }
+} else {
+    $EngineCefWinJson | Add-Member -Force -MemberType NoteProperty -Name "name" -Value $EngineCefWinJsonPackageName
+    $EngineCefWinJson | Add-Member -Force -MemberType NoteProperty -Name "version" -Value $CefPackagesVersion
+}
+
+$EngineCefWinJson | ConvertTo-Json | Out-File -NoNewline -FilePath $EngineCefWinJsonPath -Encoding UTF8

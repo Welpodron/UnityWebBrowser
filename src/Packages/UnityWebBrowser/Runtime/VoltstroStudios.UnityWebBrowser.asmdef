@@ -45,7 +45,7 @@
             "name": "com.unity.ugui",
             "expression": "2.0",
             "define": "TMP_ENABLED"
-        },
+        }
     ],
     "noEngineReferences": false
 }
